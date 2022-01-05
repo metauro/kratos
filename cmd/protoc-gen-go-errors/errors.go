@@ -59,8 +59,8 @@ func genErrorsReason(gen *protogen.Plugin, file *protogen.File, g *protogen.Gene
 	if ok := defaultCode.(int32); ok != 0 {
 		code = int(ok)
 	}
-	if code > 600 || code < 0 {
-		panic(fmt.Sprintf("Enum '%s' range must be greater than 0 and less than or equal to 600", string(enum.Desc.Name())))
+	if code < 0 {
+		panic(fmt.Sprintf("Enum '%s' range must be greater than 0", string(enum.Desc.Name())))
 	}
 	var ew errorWrapper
 	for _, v := range enum.Values {
@@ -71,8 +71,8 @@ func genErrorsReason(gen *protogen.Plugin, file *protogen.File, g *protogen.Gene
 		}
 		// If the current enumeration does not contain 'errors.code'
 		// or the code value exceeds the range, the current enum will be skipped
-		if enumCode > 600 || enumCode < 0 {
-			panic(fmt.Sprintf("Enum '%s' range must be greater than 0 and less than or equal to 600", string(v.Desc.Name())))
+		if enumCode < 0 {
+			panic(fmt.Sprintf("Enum '%s' range must be greater than 0", string(v.Desc.Name())))
 		}
 		if enumCode == 0 {
 			continue
